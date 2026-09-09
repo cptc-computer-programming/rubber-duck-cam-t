@@ -35,7 +35,7 @@ override environment values. Keep `.env`, `data/`, and backups out of Git.
 
 ## Common restarts and resets
 
-**Restart a stuck service** — preserves all data:
+**Restart a stuck service**: preserves all data:
 
 ```bash
 docker compose restart open-webui
@@ -44,20 +44,20 @@ docker compose restart open-webui
 Substitute `ollama` to restart the model server. Restart does not apply edits
 to configuration; use the startup command above for those.
 
-**Stop and start everything** — preserves all data:
+**Stop and start everything**: preserves all data:
 
 ```bash
 docker compose down
 docker compose up -d --wait --wait-timeout 600
 ```
 
-**Recreate containers** — preserves all data:
+**Recreate containers**: preserves all data:
 
 ```bash
 docker compose up -d --force-recreate --wait --wait-timeout 600
 ```
 
-**Download a missing model** — refresh the browser afterward:
+**Download a missing model**: refresh the browser afterward:
 
 ```bash
 docker compose exec ollama ollama pull llama3.2:3b
@@ -65,7 +65,7 @@ docker compose exec ollama ollama pull llama3.2:3b
 
 Substitute another model tag to try a different model.
 
-**Reset accounts and settings** — back up first. Move the old web data aside:
+**Reset accounts and settings**: back up first. Move the old web data aside:
 
 ```bash
 docker compose down
