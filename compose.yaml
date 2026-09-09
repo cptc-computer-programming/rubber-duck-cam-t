@@ -1,0 +1,54 @@
+# Stable name for this deployment and its Docker network.
+name: campus-chat
+
+services:
+  ollama:
+    # Local model server; pin releases so upgrades are deliberate.
+    image: ollama/ollama:0.33.3
+    # Recover after failure or reboot unless manually stopped.
+    restart: unless-stopped
+    # Requires the NVIDIA driver and Container Toolkit on the server.
+    gpus: all
+    volumes:
+      # Keep downloaded models when containers are recreated.
+      - ./data/ollama:/root/.ollama
+    # No host port: Ollama is reachable only through Docker's network.
+    healthcheck:
+      # Checks readiness even before a model is downloaded.
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 30s
+
+  open-webui:
+    # Browser interface, accounts, and conversations.
+    image: ghcr.io/open-webui/open-webui:v0.11.3
+    restart: unless-stopped
+    depends_on:
+      # Wait for Ollama to respond before starting the interface.
+      ollama:
+        condition: service_healthy
+    ports:
+      # Host address:host port:container port. Start locally for admin setup.
+      - "${WEBUI_BIND_ADDRESS:-127.0.0.1}:${WEBUI_PORT:-3000}:8080"
+    environment:
+      # Docker resolves the service name "ollama" on its private network.
+      OLLAMA_BASE_URL: http://ollama:11434
+      # Use local inference and require sign-in.
+      ENABLE_OPENAI_API: "false"
+      WEBUI_AUTH: "true"
+      # Required private key from .env; keep it stable across restarts.
+      WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY:?Set WEBUI_SECRET_KEY in .env}
+      # New users after the first administrator need approval.
+      DEFAULT_USER_ROLE: pending
+    volumes:
+      # Persist accounts, chats, and UI settings on the host.
+      - ./data/open-webui:/app/backend/data
+    healthcheck:
+      # Check the backend, allowing extra time for first startup.
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8080/health', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 120s
