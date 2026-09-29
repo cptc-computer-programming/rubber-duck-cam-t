@@ -1,4 +1,4 @@
-# Campus chatbot  M1
+# CAM-T Rubber Duck
 
 A chatbot hosted on a campus server. Open WebUI provides the browser interface
 and accounts; Ollama runs the model on the server's NVIDIA GPU. M1 has no
