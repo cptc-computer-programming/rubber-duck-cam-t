@@ -51,5 +51,5 @@ port is published; Ollama stays inside the Docker network.
 - `.env`: local settings and the private secret.
 - `data/`: accounts, conversations, settings, and downloaded models.
 
-See [DEVELOPMENT.md](DEVELOPMENT.md) for everyday commands, resets, and backup
+See [DEVELOPMENT.md](docs/DEVELOPMENT.md) for everyday commands, resets, and backup
 and restoration. Local settings and data are excluded from Git.
