@@ -11,26 +11,71 @@ title: "Rubber Duck: Product Brief"
   <p style="font-size: 1.2rem; margin: 0;">A chatbot for working through homework</p>
 </div>
 
+**On this page:** [Problem](#problem) · [Purpose](#purpose) · [Student guidance](#guidance-for-each-student) · [Instructor controls](#assignment-knowledge-and-instructor-control) · [Classroom use](#classroom-use) · [Campus access](#campus-access) · [Status](#current-status)
+
+## Problem
+
+ Beginning programmers need practice breaking problems into steps, tracing code, testing ideas, and finding their own mistakes. A complete AI-generated solution can skip that practice.
+
+### Generic LLMs give too much help
+
+- **Missing course context:** They do not automatically know the assignment's learning goals, what has been taught, or how much help is allowed.
+- **Too much solution detail:** They may rewrite an entire program or introduce unfamiliar techniques when a small hint would be enough.
+- **Less practice reasoning:** Following a correct explanation is different from developing and testing an approach independently.
+- **Answers beginners cannot judge:** Students may struggle to spot errors in generated code or recognize when it does not fit the assignment.
+
+### Students are going to use AI anyways
+
+Banning AI in introductory classes does not remove students' access to it. This project assumes students will continue to use AI and aims to give instructors an option they can recommend while preserving the reasoning and practice students need.
+
 ## Purpose
 
-Rubber Duck is a proposed homework chatbot for students who need help getting started, understanding a problem, or checking their approach. It should ask questions, respond to what students have tried, and offer hints that help them continue their own work.
+Rubber Duck is a proposed homework chatbot that helps students **explain a problem, check their reasoning, and decide what to try next**. The amount of help should match their understanding while keeping them responsible for their own work.
 
-The name comes from rubber duck debugging: explaining a problem aloud can help someone notice an error or figure out what they do not understand.
+> **Customer expectation**
+>
+> As the customer and instructor, I want a tool I can recommend to my classes with confidence that it supports learning and follows the expectations I set for each assignment.
 
-## Goals
+## Guidance for each student
 
-- Help students explain where they are stuck.
-- Give questions, hints, and feedback suited to their current understanding.
-- Help students understand their work and continue independently.
-- Use clear language, protect student information, and respect assignment rules.
-- Acknowledge uncertainty when it cannot give reliable help.
+The chatbot should use a student's explanations, questions, and attempts to check what they understand. A correct or incorrect answer alone is not enough to judge that understanding.
 
-## Example
+| What the student needs | How the chatbot should help |
+| :--- | :--- |
+| A small nudge | Ask a question or offer a short hint. |
+| Help with a basic concept | Explain it or use a separate example, then return to the assignment. |
+| More support after an attempt | Ask what happened and adjust the guidance. |
+| Space to continue independently | Step back once the student can explain what to do next. |
 
-A student says, "My loop never stops." The chatbot asks what should end the loop and helps them trace a small example. The student identifies the condition to check and explains the change they would make.
+### Example: a loop that never stops
 
-## Current status
+**Student:** “My loop never stops.”
 
-The campus chatbot uses Open WebUI and Ollama for conversations, user accounts, and model access. This provides the starting point for the project. The homework-specific behavior still needs to be developed and evaluated.
+1. **Ask:** What should end the loop, and what have you tried?
+2. **Adjust:** If the student understands loop conditions, ask about the changing variable. If not, explain the concept with a separate example.
+3. **Return to their work:** Ask the student to apply the idea to their code and explain the change.
 
-The goal is for students to leave a conversation with a better understanding of the problem and a next step they can explain.
+## Assignment knowledge and instructor control
+
+### Rubber Duck context
+
+The chatbot should use instructor-provided **assignment instructions, learning goals, requirements, and course material**. Guidance should reflect what students have been taught. When information is missing or unclear, it should ask for clarification rather than invent requirements.
+
+## Classroom use
+
+For me to recommend it, the chatbot needs to:
+
+- Give **accurate, useful guidance** in clear language.
+- **Protect student information** and follow assignment rules.
+- **Acknowledge uncertainty** and refer students to the instructor when it cannot help reliably.
+
+> **Desired result:** Students leave with a better understanding of the problem and a next step they can explain.
+
+## Campus access
+
+**We are hosting the chatbot on a campus server to support our goal of bringing students to campus.** It should be a useful resource alongside instructors, classmates, and campus study spaces.
+
+The chatbot should support those interactions and encourage students to seek help from people when the chatbot is not enough.
+
+
+[Back to documentation]({{ '/' | relative_url }})
