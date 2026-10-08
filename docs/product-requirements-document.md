@@ -34,7 +34,7 @@ Assignee: Zac
 
 An AI chatbot that helps beginner computer programming students with programming assignments and concepts. It will do so by having access to program materials, including assignments, lectures, modules, and other course materials. 
 
-The chatbot responds in plain, beginner friendly language. It focuses on student understanding of the underlying concept before addressing the specific assignment. It responds with short, step-by-step responses. It will not overwhelm the student with information, and it waits to move to move on until the student expresses understanding.
+The chatbot responds in plain, beginner friendly language. It focuses on student understanding of the underlying concept before addressing the specific assignment. It responds with short, step-by-step responses. It will not overwhelm the student with information, and it waits to move on until the student expresses understanding.
 
 The tool can differentiate between what is core skill the student needs to know, and what is incidental knowledge. For example, the tool won't hestite to generate terminal commands if the student needs help. 
 
@@ -104,12 +104,22 @@ The product must:
 - limit its help to just programming problems
 - support web and mobile web clients
 - communicate in a way that is easy for beginner programmers to understand
+- hint based assistance (provide progressively more specific hints rather than immediately giving the answer)
+- explaining code errors easily
 
 The product should:
 
 - have a friendly, conversational persona
+- individual student login
+- saved conversation history tied to each student (up to 3 past conversations)
+- instructor control board for course material updates and information
 
 The product could:
+
+- change level of hint assistance (depending on chosen level, depends on how in-depth the assistance is)
+- disability friendly
+- personalized study recommendations based on history
+- practice examples similar to provided problem to help further understanding
 
 
 Asignees: Zane and Anthony
