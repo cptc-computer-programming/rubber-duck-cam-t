@@ -68,7 +68,7 @@ Assignee: Cody (fill this out more)
 Assignnee: Francis
 
 ## Non-goals
-
+- asking students to explain their reasoning
 - Replace personalized instruction
 - Build an AI that can help with anything
 
