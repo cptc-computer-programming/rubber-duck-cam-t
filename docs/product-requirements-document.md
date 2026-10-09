@@ -59,18 +59,19 @@ Assignee: Cody (fill this out more)
 
 ## Goals
 
-- [A specific result we want to achieve and how we will measure success.]
+- Help beginner students learn programming.
 
-- get students quicker help
-- get students help independent of instructor availability
-- get students deeper, more contextualized help
+- Help students when teachers are not available.
+
+- Help students understand assignments step by step, without giving direct answers.
 
 Assignnee: Francis
 
 ## Non-goals
-- asking students to explain their reasoning
-- Replace personalized instruction
-- Build an AI that can help with anything
+
+- The AI tutor will not replace teachers.
+
+- The AI tutor will not answer questions about everything. It will focus on programming.
 
 Assignee: francis
 
