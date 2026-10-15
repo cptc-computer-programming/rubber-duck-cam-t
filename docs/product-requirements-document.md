@@ -117,9 +117,9 @@ The product should:
 The product could:
 
 - change level of hint assistance (depending on chosen level, depends on how in-depth the assistance is)
-- disability friendly
-- personalized study recommendations based on history
-- practice examples similar to provided problem to help further understanding
+- be disability friendly
+- give personalized study recommendations based on history
+- provide practice examples similar to provided problem to help further understanding
 
 
 Asignees: Zane and Anthony
