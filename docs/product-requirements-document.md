@@ -110,9 +110,9 @@ The product must:
 The product should:
 
 - have a friendly, conversational persona
-- individual student login
-- saved conversation history tied to each student (up to 3 past conversations)
-- instructor control board for course material updates and information
+- provide individual student login
+- save the conversation history tied to each student (up to 3 past conversations)
+- have instructor controls for course material updates and information
 
 The product could:
 
