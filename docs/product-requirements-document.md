@@ -104,7 +104,7 @@ The product must:
 - limit its help to just programming problems
 - support web and mobile web clients
 - communicate in a way that is easy for beginner programmers to understand
-- hint based assistance (provide progressively more specific hints rather than immediately giving the answer)
+- provide hint based assistance (provide progressively more specific hints rather than immediately giving the answer)
 - explaining code errors easily
 
 The product should:
