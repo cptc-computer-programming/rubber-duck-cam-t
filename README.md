@@ -1,8 +1,11 @@
-# Campus chatbot  M1
+# Campus chatbot: M0 foundation
 
 A chatbot hosted on a campus server. Open WebUI provides the browser interface
-and accounts; Ollama runs the model on the server's NVIDIA GPU. M1 has no
+and accounts; Ollama runs the model on the server's NVIDIA GPU. M0 has no
 homework or rubber-duck features.
+
+See [M1: Our First Homework Helper](docs/m1.md) for the next milestone,
+team goals, and planned architecture.
 
 ```text
 Browser -> Open WebUI -> Ollama -> NVIDIA GPU

@@ -7,6 +7,10 @@ title: Campus chatbot documentation
 
 Setup and development guides for the campus chatbot.
 
+## Current milestone
+
+**[M1: Our First Homework Helper]({{ '/m1.html' | relative_url }})** describes the shared milestone, Frontend, Backend, and Operations team goals, and the planned architecture. M0 is the running chatbot foundation.
+
 {% assign repository_url = site.github.repository_url | default: 'https://github.com/cptc-computer-programming/rubber-duck-cam-t' %}
 
 [Get started]({{ repository_url }}/blob/main/README.md) | [Browse the docs tree]({{ repository_url }}/tree/main/docs) | [Repository]({{ repository_url }})
