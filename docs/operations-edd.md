@@ -5,7 +5,7 @@ title: Team 3 Operations Engineering Design Document
 
 [Documentation home]({{ '/' | relative_url }})
 
-# Team 3 Operations Engineering Design Document
+# EDD: M1 Observability and Logging Strategy
 
 **Document Version: 1.0**
 
