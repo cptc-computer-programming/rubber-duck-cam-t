@@ -5,7 +5,7 @@ title: Engineering Design Document Template
 
 [Documentation home]({{ '/' | relative_url }})
 
-# Engineering Design Document Template
+# EDD: M1 Backend Engineering Design Document
 
 All sections in this document are optional. Use what you need.
 
@@ -15,11 +15,11 @@ All sections in this document are optional. Use what you need.
 
 | Field | Guidance |
 | --- | --- |
-| **Status** | Current state of the project (choose one): DRAFT, IN PROGRESS, IN REVIEW, COMPLETED. |
-| **Created Date** | Date the document was initially created. |
-| **Author** | Primary owner responsible for the design and updates. |
+| **Status** | DRAFT |
+| **Created Date** | October 20, 2026|
+| **Author** | Anthony Brunner, Cody Pekarek, Zane Marcoe|
 | **EDD Size** | Estimated scope (days, weeks, months). |
-| **Consulted** | Stakeholders, reviewers, and subject matter experts who contributed input. |
+| **Consulted** | Frontend Team, Rachel King, Joe Ortiz |
 | **Supporting Documentation** | Links to PRDs, RFCs, architecture docs, tickets, and diagrams. Not external references or guides. |
 
 ## Overview
