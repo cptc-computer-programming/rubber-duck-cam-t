@@ -16,9 +16,9 @@ All sections in this document are optional. Use what you need.
 | Field | Guidance |
 | --- | --- |
 | **Status** | Draft |
-| **Created Date** | Date the document was initially created. |
-| **Author** | Primary owner responsible for the design and updates. |
-| **EDD Size** | Estimated scope (days, weeks, months). |
+| **Created Date** | 10/20/26 |
+| **Author** | Francis S., Ivanna O., Zack K. |
+| **EDD Size** | N/A |
 | **Consulted** | Stakeholders, reviewers, and subject matter experts who contributed input. |
 | **Supporting Documentation** | Links to PRDs, RFCs, architecture docs, tickets, and diagrams. Not external references or guides. |
 
