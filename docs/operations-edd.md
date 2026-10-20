@@ -15,9 +15,9 @@ title: Team 3 Operations Engineering Design Document
 | --- | --- |
 | **Status** | DRAFT |
 | **Created Date** | October 20, 2026 |
-| **Author** | Joe and Rachel |
-| **EDD Size** | |
-| **Consulted** | |
+| **Author** | Rachel King|
+| **EDD Size** | Small |
+| **Consulted** | Joe Ortiz|
 | **Supporting Documentation** | [M1](m1.html), [Current architecture](current-architecture.html) |
 
 ## Overview
