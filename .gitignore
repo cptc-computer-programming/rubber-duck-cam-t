@@ -4,3 +4,5 @@
 data/
 backups/
 compose.override.yaml
+.vs/
+.vs*
