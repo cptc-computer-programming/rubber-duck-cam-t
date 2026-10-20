@@ -26,13 +26,30 @@ All sections in this document are optional. Use what you need.
 
 ### Problem
 
-Clearly define the problem being solved:
+- Open WebUI provides a generic, blank chat interface.
+ Students currently have no way to specify which class assignment they are working on before starting a conversation.
+ Without knowing the specific assignment, the backend cannot load the correct context, constraints, 
+ or "rubber duck" system prompts required to properly tutor the student.
 
-- What is happening today?
-- Why is it a problem (impact on users, system, or business)?
-- Who is affected?
-- Include metrics if available (latency, error rates, costs, etc.).
-- Describe constraints or requirements that must be respected.
+### Technical Details
+- We need to map out the view/component hierarchy (navigation, pages, forms). 
+  More importantly, we need to define the API contracts with the back-end team. 
+  We can't build our HTTP requests or UI models until we know exactly what JSON payload 
+  they are sending us and what they expect us to send back.
+
+### Bullet Points
+- The frontend must create a user experience that encourages problem-solving through guidance, hints, 
+  and coaching rather than answer delivery.
+- A scalable component architecture must be designed to support assignment views, 
+  chat interactions, navigation, progress tracking, and future educational features
+  without requiring major UI redesigns.
+- Clear API contracts are needed so frontend engineers can build reliable data models, request
+  handlers, and error states that properly communicate with backend services.
+- The success of the product depends heavily on usability, accessibility, 
+  and user engagement, requiring specialized frontend engineering to transform backend AI 
+  functionality into an intuitive learning platform that students will actually use effectively.
+
+
 
 ### Proposed Solution
 
