@@ -86,19 +86,17 @@ Lab server
 
 #### APIs
 
-We will configure the monitoring interfaces below for M1.
+For M1, we will use Open WebUI's existing health endpoint and built-in metrics export.
 
-| Connection | Interface and purpose |
+| Open WebUI capability | How we will use it |
 | --- | --- |
-| Open WebUI to Collector | OpenTelemetry Protocol (OTLP) metrics export. Enable `ENABLE_OTEL` and `ENABLE_OTEL_METRICS`, and point `OTEL_METRICS_EXPORTER_OTLP_ENDPOINT` at the Collector. |
-| Prometheus to Collector | Prometheus collects measurements from the Collector's configured metrics endpoint. |
-| Grafana to Prometheus | Grafana queries Prometheus through its HTTP API to populate the dashboard. |
+| `GET /health` | Continue checking application health through the existing container health check. |
+| `http.server.requests` counter | Measure request volume and identify HTTP errors using status codes. |
+| `http.server.duration` histogram | Track HTTP request duration over time. |
 
-Open WebUI documents a request counter (`http.server.requests`) and duration histogram (`http.server.duration`), with HTTP method, route, and status code labels. We will verify the available metrics against our deployed version before building queries. See the [Open WebUI monitoring guide](https://docs.openwebui.com/reference/monitoring/otel/).
+The metrics include HTTP method, route, and status code labels. Open WebUI exports them through OpenTelemetry; they are not REST endpoints we call. We will verify the metrics against our deployed version. See the [Open WebUI monitoring guide](https://docs.openwebui.com/reference/monitoring/otel/).
 
-The existing Compose health check calls Open WebUI's `/health` endpoint. This checks readiness; the metrics above provide the measurements over time.
-
-Exact service addresses, ports, authentication, and Collector configuration are still to be decided. APIs and data formats for assignment usage, version comparisons, and evals remain open.
+For later milestones, we still need to identify which Open WebUI APIs can support assignment usage tracking and repeatable evals across prompt and model versions.
 
 
 #### Docker Compose and lab configuration
