@@ -28,21 +28,25 @@ All sections in this document are optional. Use what you need.
 
 Clearly define the problem being solved:
 
-- What is happening today?
-- Why is it a problem (impact on users, system, or business)?
-- Who is affected?
-- Include metrics if available (latency, error rates, costs, etc.).
-- Describe constraints or requirements that must be respected.
-
+- The Model does not know to not give the explicit answer to the student and       rather tutor the student through the problem
+- The Model has no context to the current course work the students are working with
+- The Model needs a way to determine which learning objectives the student is having difficulty with.
+- The Model has no means of identifying when a question goes beyond the scope of the students current skill sets, 
+    and summarizing brief responses without overwhelming the student.
+    
 ### Proposed Solution
 
 High-level description of the solution:
 
-- What will be built or changed?
-- Why this approach was chosen over alternatives.
-- Expected outcomes and improvements.
-- Key assumptions.
-- Brief mention of trade-offs.
+- Giving users access to course content, such as assignments, to get their desired help with context
+- Bar the model from giving the student the "answers" to their problems (force them to work through it)
+- Keep prompting the user if they understand the assignment or the content, if not then help the user towards comprehension
+    using plain language that the user can understand
+
+- Use Keywords and concepts, to identify specific skillsets the student is lacking.
+- Provide multiple abstract analogies that the student can relate to outside the lingo of programming.
+- Identify skill sets contained within the assignment that are beyond the current scope, that the student may indirectly become involved with, 
+    and allow for a brief summary of the concept but not overwhelm the student.
 
 ## Technical Design
 
