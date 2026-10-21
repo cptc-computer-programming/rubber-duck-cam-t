@@ -16,16 +16,25 @@ Francis Sengele
 
 ## Problem
 
-[Who has the problem? What is difficult for them today, and what evidence do we have?]
+The rapid integration of Large Language Models (LLMs) into educational environments has introduced unprecedented opportunities for automated tutoring; however, current off-the-shelf implementations fail to deliver pedagogically sound, targeted support. The fundamental bottleneck is contextual isolation. When students interact with generic LLMs, they are met with generalized data dumps rather than scaffolded guidance. This paradigm inadvertently bypasses the learning process, yielding outputs that are technically accurate in a vacuum but educationally counterproductive.
 
-LLMs: 
+Standard, unspecialized LLMs exhibit several critical architectural and operational limitations in academic use cases:
 
-- give too much information
-- gives non-personalized information
-- gives non-contextualized information about how to solve the assignment
-- LLMs don't have access to course materials
+- **Algorithmic Information Overload:** 
+Instead of employing pedagogical scaffolding or targeted hints, general models generate overly verbose, fully resolved solutions that subvert critical thinking and knowledge retention.
 
-Assignee: Zac
+- **Lack of Adaptive Personalization:**
+Standard models operate with static personas, failing to dynamically adapt to a user’s current technical proficiency, underlying skill gaps, or unique cognitive learning style.
+
+- **Misalignment with Structural Constraints:**
+Generic LLMs deploy broad problem-solving methodologies that frequently violate the specific architectural constraints, formatting rules, and strict parameters mandated by an assignment's scope.
+
+- **Curriculum Blindness:**
+Operating without integration into proprietary academic assets—such as syllabi, grading rubrics, and direct lecture material—LLM outputs remain fundamentally detached from the localized learning objectives.
+
+Ultimately, this systemic friction degrades the utility of AI in academic settings. When developers in training are debugging complex logic, they require targeted directional guidance to build syntactic muscle memory, not an automated proxy to do the work for them. Attempting to engineer a standard LLM into an effective teaching assistant introduces unacceptable latency and frustration into the development workflow. Instead of acting as an integrated, 24/7 tutor that reinforces core competencies, the technology devolves into a disconnected workaround. To realize the true potential of AI-assisted education, the architecture must evolve from providing unconstrained answers to delivering context-integrated, curriculum-aligned guidance.
+
+**Assignee: Zac**
 
 ## Desired outcome
 
