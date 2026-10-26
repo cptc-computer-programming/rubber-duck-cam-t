@@ -12,15 +12,14 @@ All sections in this document are optional. Use what you need.
 **Document Version: 1.0**
 
 ## Executive Summary
+Field       Information
+Status      IN PROGRESS
+Created     Date  October 25, 2026
+Author      Frontend Team – Francis Sengele, Ivanna Otero, Zac
+EDD Size    1–2 weeks (estimate)
+Consulted   Backend Team (Cody, Zane, Anthony), Instructor Rachel
 
-| Field | Guidance |
-| --- | --- |
-| **Status** | Draft |
-| **Created Date** | 10/20/26 |
-| **Author** | Francis S., Ivanna O., Zack K. |
-| **EDD Size** | N/A |
-| **Consulted** | Stakeholders, reviewers, and subject matter experts who contributed input. |
-| **Supporting Documentation** | Links to PRDs, RFCs, architecture docs, tickets, and diagrams. Not external references or guides. |
+
 
 ## Overview
 
@@ -49,17 +48,51 @@ All sections in this document are optional. Use what you need.
   and user engagement, requiring specialized frontend engineering to transform backend AI 
   functionality into an intuitive learning platform that students will actually use effectively.
 
+  ### Problem Statement — Frontend
+
+Open WebUI already has a chat system. Students can type questions and receive AI responses.
+However, the chat does not currently have a way for students to select the homework assignment they need help with.
+For Milestone 1, we want students to select the SQL Joins assignment from Principles of Relational Databases.
+The frontend must send the selected assignment information to the backend so the AI can give help related to that assignment.
+The AI should guide students and help them understand what to try next, not simply give them the homework answers.
+
 
 
 ### Proposed Solution
 
-High-level description of the solution:
+We plan to add two dropdown menus to the Open WebUI chat page:
+Select Class: Principles of Relational Databases
+Select Assignment: SQL Joins
+We will use the existing Chat.svelte component.
+The selected values will be stored in two variables:
+selectedClassId
+selectedAssignmentId
+The frontend will send these values to the backend using the existing chat API.
+We will use the rubber_duck_context structure agreed on with the backend team.
+This approach allows us to reuse the existing Open WebUI chat system without building a new chat interface.
 
-- What will be built or changed?
-- Why this approach was chosen over alternatives.
-- Expected outcomes and improvements.
-- Key assumptions.
-- Brief mention of trade-offs.
+
+## Frontend Technical Problem
+
+- Open WebUI has an existing chat interface, but M1 requires a way for students to select the supported SQL JOIN assignment.
+- We need to decide where assignment selection should appear in the chat interface.
+- We need to identify the existing frontend components responsible for starting a chat and submitting messages.
+- The frontend and backend teams need to agree on how assignment information will be sent and received.
+
+## Proposed Solution
+
+- Add an assignment selection UI using Svelte components.
+- Display the supported SQL JOIN assignment clearly to students.
+- Connect the selected assignment to the homework help chat.
+- Investigate the existing chat submission API and reuse it if appropriate.
+- Work with the backend team to agree on the assignment data format.
+
+## Technical Decisions Still Needed
+
+- Which Svelte component should we modify?
+- Should assignment information come from the backend or be defined in the frontend for M1?
+- Which API should carry the selected assignment?
+- How should the assignment be associated with the chat session?
 
 ## Technical Design
 
