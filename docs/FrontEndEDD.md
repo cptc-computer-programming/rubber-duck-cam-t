@@ -120,9 +120,23 @@ The frontend will send the selected information to the backend using the existin
 
 #### APIs
 
-- New or modified endpoints.
-- Request/response formats (schemas).
-- Authentication/authorization requirements.
+We will use the existing endpoint:
+POST /api/chat/completions
+Our teams agreed to use this data structure:
+{
+  "rubber_duck_context": {
+    "class_id": "cpw-152",
+    "assignment_id": "cp4-joins"
+  }
+}
+The frontend will send this object with the existing chat request.
+In Chat.svelte, we found generateOpenAIChatCompletion, which sends the chat request.
+We also added two variables:
+let selectedClassId = '';
+let selectedAssignmentId = '';
+These variables will store the selected class and assignment.
+The backend team will read this information and use it to provide the correct assignment instructions.
+
 
 #### Database
 
