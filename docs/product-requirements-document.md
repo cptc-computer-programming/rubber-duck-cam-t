@@ -39,21 +39,18 @@ Ultimately, this systemic friction degrades the utility of AI in academic settin
 ## Desired outcome
 
 > [!NOTE]  
-> An AI tutor that helps students with beginner programming classes without giving away the answer to assignments. 
+> An AI tutor that helps students with beginner programming classes without giving away the answer to assignments. An AI chatbot that helps beginner computer 
+programming students with programming assignments and concepts. It will do so by having access to program materials, including assignments, lectures, modules, 
+and other course materials. It will:
 
-An AI chatbot that helps beginner computer programming students with programming assignments and concepts. It will do so by having access to program materials, including assignments, lectures, modules, and other course materials. 
-
-The chatbot responds in plain, beginner friendly language. It focuses on student understanding of the underlying concept before addressing the specific assignment. It responds with short, step-by-step responses. It will not overwhelm the student with information, and it waits to move to move on until the student expresses understanding.
-
-The tool can differentiate between what is core skill the student needs to know, and what is incidental knowledge. For example, the tool won't hestite to generate terminal commands if the student needs help. 
-
-The tool is non-judgemental. 
-
+- Focus on student comprehension of underlying concepts
+- Short, direct responses
+- No complex information
+- differentiate core skills and incidental knowledge
 - the tool works in multiple languages 
-- easily accesible
 - accessible on campus only to promote attendence
-
-Assignee: Cody (cleanup)
+- the tool works in multiple languages
+- accessible on campus only to promote attendence
 
 ## Scope
 
@@ -63,7 +60,16 @@ Assignee: Cody (cleanup)
 
 Beginnering computer programming students at Clover Park Technical College
 
-Assignee: Cody (fill this out more)
+### Use Cases Covered in This Version
+
+- A student selects their active assignment via a dropdown, providing key information for ollama, to determine necessary response.
+- The chatbot will not give code blocks, only instructions and knowledge.
+- The chatbot will use real world analogies to not overwhelm the student.
+- If a student asks about concepts outside the intended scope of skills, it will provide a brief summary of the concept without delving too deep into the concept.
+
+### Key Features
+
+- Focused support for classes and their assignments.
 
 
 ## Goals
