@@ -52,14 +52,8 @@ High-level description of the solution:
 
 ### Overview
 
-Provide a system-level explanation:
+Before the context of the users question reaches the LLM, Ollama, the API will see if the class and assignment have been selected. If so, the product will pull the required information from both ID's to respond with a contextualized answer for the user. Then push the users question and the pulled information towards the LLM
 
-
-
-- How the solution fits into the existing architecture.
-- Major components and how they interact.
-- Data flow at a high level.
-- Include a simple diagram if useful.
 
 ### Technical Details
 
