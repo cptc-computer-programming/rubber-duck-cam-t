@@ -20,7 +20,7 @@ All sections in this document are optional. Use what you need.
 | **Author** | Anthony Brunner, Cody Pekarek, Zane Marcoe|
 | **EDD Size** | Estimated scope (days, weeks, months). |
 | **Consulted** | Frontend Team (Francis, Ivanna, Zac), Rachel King, Joe Ortiz |
-| **Supporting Documentation** | Links to PRDs, RFCs, architecture docs, tickets, and diagrams. Not external references or guides. |
+| **Supporting Documentation** | [M1](m1.md), [Current architecture](current-architecture.md)|
 
 ## Overview
 
