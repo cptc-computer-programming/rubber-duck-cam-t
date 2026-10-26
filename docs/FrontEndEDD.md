@@ -108,10 +108,15 @@ The frontend will send the selected information to the backend using the existin
 
 #### System Diagrams
 
-- Architecture diagrams (high-level and/or detailed).
-- Sequence diagrams for critical flows.
-- Data flow diagrams if applicable.
-- Clearly label services, dependencies, and boundaries.
+- The data will move through the system like this:
+- The student selects a class and assignment.
+- The student types a question.
+- The frontend sends the question and assignment information to the backend.
+- The backend adds the assignment context and coaching instructions.
+- Ollama generates a response.
+- The frontend displays the response to the student.
+
+
 
 #### APIs
 
