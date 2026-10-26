@@ -19,7 +19,7 @@ All sections in this document are optional. Use what you need.
 | **Created Date** | October 20, 2026|
 | **Author** | Anthony Brunner, Cody Pekarek, Zane Marcoe|
 | **EDD Size** | Estimated scope (days, weeks, months). |
-| **Consulted** | Frontend Team, Rachel King, Joe Ortiz |
+| **Consulted** | Frontend Team (Francis, Ivanna, Zac), Rachel King, Joe Ortiz |
 | **Supporting Documentation** | Links to PRDs, RFCs, architecture docs, tickets, and diagrams. Not external references or guides. |
 
 ## Overview
@@ -53,6 +53,8 @@ High-level description of the solution:
 ### Overview
 
 Provide a system-level explanation:
+
+
 
 - How the solution fits into the existing architecture.
 - Major components and how they interact.
