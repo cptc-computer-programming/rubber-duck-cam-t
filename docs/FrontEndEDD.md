@@ -98,12 +98,11 @@ This approach allows us to reuse the existing Open WebUI chat system without bui
 
 ### Overview
 
-Provide a system-level explanation:
+Our Frontend team will modify the existing Open WebUI chat interface.
+We found the main chat component in Chat.svelte.
+We will add two dropdown menus so students can select a class and an assignment before asking a question.
+The frontend will send the selected information to the backend using the existing chat API.
 
-- How the solution fits into the existing architecture.
-- Major components and how they interact.
-- Data flow at a high level.
-- Include a simple diagram if useful.
 
 ### Technical Details
 
