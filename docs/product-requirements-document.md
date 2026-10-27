@@ -120,12 +120,22 @@ The product must:
 - limit its help to just programming problems
 - support web and mobile web clients
 - communicate in a way that is easy for beginner programmers to understand
+- provide hint based assistance (provide progressively more specific hints rather than immediately giving the answer)
+- explaining code errors easily
 
 The product should:
 
 - have a friendly, conversational persona
+- provide individual student login
+- save the conversation history tied to each student (up to 3 past conversations)
+- have instructor controls for course material updates and information
 
 The product could:
+
+- change level of hint assistance (depending on chosen level, depends on how in-depth the assistance is)
+- be disability friendly
+- give personalized study recommendations based on history
+- provide practice examples similar to provided problem to help further understanding
 
 
 Asignees: Zane and Anthony
