@@ -16,35 +16,41 @@ Francis Sengele
 
 ## Problem
 
-[Who has the problem? What is difficult for them today, and what evidence do we have?]
+The rapid integration of Large Language Models (LLMs) into educational environments has introduced unprecedented opportunities for automated tutoring; however, current off-the-shelf implementations fail to deliver pedagogically sound, targeted support. The fundamental bottleneck is contextual isolation. When students interact with generic LLMs, they are met with generalized data dumps rather than scaffolded guidance. This paradigm inadvertently bypasses the learning process, yielding outputs that are technically accurate in a vacuum but educationally counterproductive.
 
-LLMs: 
+Standard, unspecialized LLMs exhibit several critical architectural and operational limitations in academic use cases:
 
-- give too much information
-- gives non-personalized information
-- gives non-contextualized information about how to solve the assignment
-- LLMs don't have access to course materials
+- **Algorithmic Information Overload:** 
+Instead of employing pedagogical scaffolding or targeted hints, general models generate overly verbose, fully resolved solutions that subvert critical thinking and knowledge retention.
 
-Assignee: Zac
+- **Lack of Adaptive Personalization:**
+Standard models operate with static personas, failing to dynamically adapt to a user’s current technical proficiency, underlying skill gaps, or unique cognitive learning style.
+
+- **Misalignment with Structural Constraints:**
+Generic LLMs deploy broad problem-solving methodologies that frequently violate the specific architectural constraints, formatting rules, and strict parameters mandated by an assignment's scope.
+
+- **Curriculum Blindness:**
+Operating without integration into proprietary academic assets—such as syllabi, grading rubrics, and direct lecture material—LLM outputs remain fundamentally detached from the localized learning objectives.
+
+Ultimately, this systemic friction degrades the utility of AI in academic settings. When developers in training are debugging complex logic, they require targeted directional guidance to build syntactic muscle memory, not an automated proxy to do the work for them. Attempting to engineer a standard LLM into an effective teaching assistant introduces unacceptable latency and frustration into the development workflow. Instead of acting as an integrated, 24/7 tutor that reinforces core competencies, the technology devolves into a disconnected workaround. To realize the true potential of AI-assisted education, the architecture must evolve from providing unconstrained answers to delivering context-integrated, curriculum-aligned guidance.
+
+**Assignee: Zac**
 
 ## Desired outcome
 
 > [!NOTE]  
-> An AI tutor that helps students with beginner programming classes without giving away the answer to assignments. 
+> An AI tutor that helps students with beginner programming classes without giving away the answer to assignments. An AI chatbot that helps beginner computer 
+programming students with programming assignments and concepts. It will do so by having access to program materials, including assignments, lectures, modules, 
+and other course materials. It will:
 
-An AI chatbot that helps beginner computer programming students with programming assignments and concepts. It will do so by having access to program materials, including assignments, lectures, modules, and other course materials. 
-
-The chatbot responds in plain, beginner friendly language. It focuses on student understanding of the underlying concept before addressing the specific assignment. It responds with short, step-by-step responses. It will not overwhelm the student with information, and it waits to move on until the student expresses understanding.
-
-The tool can differentiate between what is core skill the student needs to know, and what is incidental knowledge. For example, the tool won't hestite to generate terminal commands if the student needs help. 
-
-The tool is non-judgemental. 
-
+- Focus on student comprehension of underlying concepts
+- Short, direct responses
+- No complex information
+- differentiate core skills and incidental knowledge
 - the tool works in multiple languages 
-- easily accesible
 - accessible on campus only to promote attendence
-
-Assignee: Cody (cleanup)
+- the tool works in multiple languages
+- accessible on campus only to promote attendence
 
 ## Scope
 
@@ -54,23 +60,33 @@ Assignee: Cody (cleanup)
 
 Beginnering computer programming students at Clover Park Technical College
 
-Assignee: Cody (fill this out more)
+### Use Cases Covered in This Version
+
+- A student selects their active assignment via a dropdown, providing key information for ollama, to determine necessary response.
+- The chatbot will not give code blocks, only instructions and knowledge.
+- The chatbot will use real world analogies to not overwhelm the student.
+- If a student asks about concepts outside the intended scope of skills, it will provide a brief summary of the concept without delving too deep into the concept.
+
+### Key Features
+
+- Focused support for classes and their assignments.
 
 
 ## Goals
 
-- [A specific result we want to achieve and how we will measure success.]
+- Help beginner students learn programming.
 
-- get students quicker help
-- get students help independent of instructor availability
-- get students deeper, more contextualized help
+- Help students when teachers are not available.
+
+- Help students understand assignments step by step, without giving direct answers.
 
 Assignnee: Francis
 
 ## Non-goals
 
-- Replace personalized instruction
-- Build an AI that can help with anything
+- The AI tutor will not replace teachers.
+
+- The AI tutor will not answer questions about everything. It will focus on programming.
 
 Assignee: francis
 
@@ -128,8 +144,51 @@ Asignees: Zane and Anthony
 
 ## Design
 
-[Briefly describe the proposed experience or solution. Link sketches, wireframes, or diagrams and explain key decisions.]
+It is a minimalist and modern design approach with both light and dark mode support. The layout is divided into two primary sections: a fixed left navigation sidebar and a spacious content area that prioritizes user interaction and readability. 
 
+**Visual Style**
+- The design uses a soft, uncluttered interface with generous whitespace to reduce cognitive load.
+- A handwritten-style typography gives the platform a friendly, approachable, and student-focused personality.
+- A vibrant purple accent color is consistently used for interactive elements such as buttons, icons, dropdown indicators, and input field borders, matching the school colors.
+- A subtle green vertical divider separates the navigation panel from the main workspace, providing clear structure without overwhelming the interface, also matching the school colors!
+
+**Navigation Sidebar** 
+- Positioned on the left side for quick access to core features.
+- Includes sections for:
+  - Notes
+  - Class
+  - Topic
+  - Chats
+- Class and Topic menus use expandable dropdown indicators for hierarchical navigation.
+- The CAM-T logo is placed at the top-left corner, reinforcing branding and providing a familiar anchor point.
+
+**Header Area** 
+- Located in the upper-right corner.
+- Contains:
+  - User authentication controls (Log In / Log out)
+  - Theme switching option (Light and Dark Mode)
+- The simple icon-based controls maintain a clean and intuitive appearance.
+
+**Main Content Area** 
+The central workspace emphasizes focus and interaction through minimal visual distractions. 
+
+**Welcome Screen** 
+- Displays a personalized greeting such as "Hello... (User Name)".
+- Includes a centered rounded input field for user queries, notes, or conversation prompts.
+- The layout creates a welcoming and conversational experience.
+
+**Chat Interface**
+- Features a large, rounded conversation panel positioned toward the uppser-right sections. Simulating a users message.
+- A message input field is placed near the bottom center for easy communication.
+- Rounded corners and outlined components create a soft, modern appearance while maintaining visual consitency.
+
+**Dark Mode** 
+- Uses a deep charcoal background instead of pure black to reduce eye strain.
+- Maintains the same purple accent color for interactive elements and focus states.
+- Light typography provided strong readability and contrast.
+- Preserves the exact layout and component hierarchy of the light mode fora seamless user experience.
+
+Link to the design: https://canva.link/vftgqy8whcpiyis
 Assignee: Ivanna
 
 
