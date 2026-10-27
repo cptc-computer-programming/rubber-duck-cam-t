@@ -134,8 +134,51 @@ Asignees: Zane and Anthony
 
 ## Design
 
-[Briefly describe the proposed experience or solution. Link sketches, wireframes, or diagrams and explain key decisions.]
+It is a minimalist and modern design approach with both light and dark mode support. The layout is divided into two primary sections: a fixed left navigation sidebar and a spacious content area that prioritizes user interaction and readability. 
 
+**Visual Style**
+- The design uses a soft, uncluttered interface with generous whitespace to reduce cognitive load.
+- A handwritten-style typography gives the platform a friendly, approachable, and student-focused personality.
+- A vibrant purple accent color is consistently used for interactive elements such as buttons, icons, dropdown indicators, and input field borders, matching the school colors.
+- A subtle green vertical divider separates the navigation panel from the main workspace, providing clear structure without overwhelming the interface, also matching the school colors!
+
+**Navigation Sidebar** 
+- Positioned on the left side for quick access to core features.
+- Includes sections for:
+  - Notes
+  - Class
+  - Topic
+  - Chats
+- Class and Topic menus use expandable dropdown indicators for hierarchical navigation.
+- The CAM-T logo is placed at the top-left corner, reinforcing branding and providing a familiar anchor point.
+
+**Header Area** 
+- Located in the upper-right corner.
+- Contains:
+  - User authentication controls (Log In / Log out)
+  - Theme switching option (Light and Dark Mode)
+- The simple icon-based controls maintain a clean and intuitive appearance.
+
+**Main Content Area** 
+The central workspace emphasizes focus and interaction through minimal visual distractions. 
+
+**Welcome Screen** 
+- Displays a personalized greeting such as "Hello... (User Name)".
+- Includes a centered rounded input field for user queries, notes, or conversation prompts.
+- The layout creates a welcoming and conversational experience.
+
+**Chat Interface**
+- Features a large, rounded conversation panel positioned toward the uppser-right sections. Simulating a users message.
+- A message input field is placed near the bottom center for easy communication.
+- Rounded corners and outlined components create a soft, modern appearance while maintaining visual consitency.
+
+**Dark Mode** 
+- Uses a deep charcoal background instead of pure black to reduce eye strain.
+- Maintains the same purple accent color for interactive elements and focus states.
+- Light typography provided strong readability and contrast.
+- Preserves the exact layout and component hierarchy of the light mode fora seamless user experience.
+
+Link to the design: https://canva.link/vftgqy8whcpiyis
 Assignee: Ivanna
 
 
