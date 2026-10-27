@@ -181,13 +181,14 @@ The following items are explicitly excluded from the current M1 implementation p
 
 Metrics to track system health (latency, throughput, error rates):
 
-- Alerts and thresholds.
-- Health checks and dashboards.
+- Inference Latency Metrics: Monitor the time-to-first-token and total generation times via Ollama log targets to flag performance dips.
+- System Resource Thresholds: Set up alerts when host GPU VRAM or core server system memory saturation hits or exceeds 90% utilization limits.
+- API Success Trackers: Monitor HTTP status distribution charts; any systemic spike in error codes (5xx) triggers automated notifications.
 
 ### Reactive
 
-- Logging strategy (structured logs, log levels).
-- Debugging tools and workflows.
+- Structured JSON Engine Logging: All backend middleware tracking events log clean JSON records containing standard severity levels (INFO, WARN, ERROR).
+- Session Debugging Hooks: Developers can append validation flags (?debug=true) to active development requests to return raw compiled system prompt templates alongside the generated token stream.
 
 
 ## Risks
