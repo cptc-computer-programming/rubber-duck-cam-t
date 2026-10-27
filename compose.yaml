@@ -23,7 +23,12 @@ services:
 
   open-webui:
     # Browser interface, accounts, and conversations.
-    image: ghcr.io/open-webui/open-webui:v0.11.3
+    # Build from the fork cloned beside this deployment repository.
+    build:
+      context: ../rubber-duck-webui
+      dockerfile: Dockerfile
+    image: rubber-duck-webui:local
+    pull_policy: build
     restart: unless-stopped
     depends_on:
       # Wait for Ollama to respond before starting the interface.
