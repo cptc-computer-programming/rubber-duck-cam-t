@@ -192,24 +192,45 @@ Metrics to track system health (latency, throughput, error rates):
 
 ## Risks
 
-Identify and assess risks:
-
-- Technical risks (scalability, reliability).
-- Product risks (user adoption, UX issues).
-- Operational risks (deployment complexity).
-- Dependencies on other teams or systems.
-
-For each risk, include the following headers:
-
-### [Risk Name]
+### Model Ignores the "Coaching" rules
 
 #### Description
 
-Describe the risk and its potential impact.
+With the small model it may be possible it gives away the full answer, especially if a student was to prompt inject or keep pushing. If it gives its answers than we fail the purpose of the program
 
 #### Mitigation Strategy
 
-Describe how the risk will be reduced or addressed.
+Keep the rules short and concrete. Run multiple behavior tests to see if or where the model fails and fix as needed. Never give the model the final answer thus making it so that it can not give it to the student. Content files <ins>ONLY</ins> ever contain: Instructions, objectives, misconceptions, and hints. <ins>NO</ins> solutions, answer keys, or student data. Can also include this rule on a pull request checklist. 
+
+### Front-end and Back-end disagree
+
+#### Description
+
+While both teams are working in parallel and talking to each other, a mismatch in field names, ID's, or error handling could cause major problems and bugs. 
+
+#### Mitigation Strategy
+
+Take the front-end's EDD shape (class_id and assignment_id grouped under one object) and adopt it on the back-end as the starting point. Then both teams can review together and record the outcome in this document. Until then, nothing is hard-coded on either side of the field and we will create a contract in a singular place that both teams link to instead of copying.
+
+### Student privacy in logs and backups removed
+
+#### Description
+
+Conversations are stored in the database, and backups include accounts, chats, and the secret(webui key). Verbose logging or loose backup could expose the student information.
+
+#### Mitigation Strategy
+
+Log identifiers and counts only, not the message text. keep the backups protected and off the server.
+
+### Instructor content is late or unclear
+
+#### Description
+
+The assignment text, objectives, and hints have to come from the instructor. If they arrive late or leave gaps, the duck has nothing accurate to coach with and may invent requirements.
+
+#### Mitigation Strategy
+
+Make sure the assignment data is acquired well ahead of time and if it is missing, then do not allow students to select that particular assignment for help. In the coaching rules, tell the model to refer the student to the instructor if the instructions do not answer a question or are unclear. 
 
 ## Timeline & Scope
 
