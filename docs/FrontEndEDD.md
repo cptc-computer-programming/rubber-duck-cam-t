@@ -47,7 +47,7 @@ Consulted   Backend Team (Cody, Zane, Anthony), Instructor Rachel and Joe
   and user engagement, requiring specialized frontend engineering to transform backend AI 
   functionality into an intuitive learning platform that students will actually use effectively.
 
-  ### Problem Statement — Frontend
+### Problem Statement — Frontend
 
 Open WebUI already has a chat system. Students can type questions and receive AI responses.
 However, the chat does not currently have a way for students to select the homework assignment they need help with.
@@ -122,8 +122,7 @@ The frontend will send the selected information to the backend using the existin
 Here is the sequence diagram showing how the frontend interacts with the 
 backend:
 
-```
-mermaid
+```mermaid
 sequenceDiagram
     actor Student
     participant Frontend as Open WebUI (Chat.svelte)
@@ -143,21 +142,19 @@ sequenceDiagram
 #### APIs
 
 We will use the existing endpoint:
-POST /api/chat/completions
-Our teams agreed to use this data structure:
+`POST /api/chat/completions`
+
+Our teams agreed to use this data structure. It will be sent as part of the 
+request payload:
+
+```json
 {
   "rubber_duck_context": {
     "class_id": "cpw-152",
     "assignment_id": "cp4-joins"
   }
 }
-The frontend will send this object with the existing chat request.
-In Chat.svelte, we found generateOpenAIChatCompletion, which sends the chat request.
-We also added two variables:
-let selectedClassId = '';
-let selectedAssignmentId = '';
-These variables will store the selected class and assignment.
-The backend team will read this information and use it to provide the correct assignment instructions.
+```
 
 
 #### Database
@@ -168,21 +165,28 @@ The backend team will read this information and use it to provide the correct as
 
 #### Deployment
 
-How will code changes be shipped? Include information on:
+Since we are modifying an existing open-source project (Open WebUI), our 
+deployment strategy will rely on Docker.
 
-- Automated steps.
-- Manual steps.
-- CI/CD pipelines.
-- Containerization technology.
+- **Automated steps:** GitHub Actions will run standard build and lint tests 
+  on the `rubber-duck-cam-t` repository.
+- **Containerization technology:** We will use Docker to build the modified 
+  Open WebUI image.
+- **Manual steps:** For M1, deployment to the staging environment will be 
+  handled manually by pulling the latest Docker image and spinning up the 
+  container.
+
 
 ## Out of Scope
 
-Explicitly list what is not included:
+Explicitly not included in Milestone 1:
+- A custom-built chat UI from scratch (we are modifying Open WebUI).
+- Backend prompt engineering or AI model selection.
+- Saving user progress or chat history outside of Open WebUI's native SQLite 
+  database.
+- Authentication or single sign-on (SSO) integration.
 
-- Features or capabilities intentionally excluded.
-- Future work that will be handled separately.
-- Avoid ambiguity to prevent scope creep.
-
+  
 ## Observability
 
 ### Proactive
@@ -200,22 +204,12 @@ Metrics to track system health (latency, throughput, error rates):
 
 ## Risks
 
-Identify and assess risks:
-
-- Technical risks (scalability, reliability).
-- Product risks (user adoption, UX issues).
-- Operational risks (deployment complexity).
-- Dependencies on other teams or systems.
-
-For each risk, include the following headers:
-
-### [Risk Name]
+### Open WebUI Upgrades Break Custom UI
 
 #### Description
-
-Describe the risk and its potential impact.
-
-#### Mitigation Strategy
+Because we are injecting custom code (`Chat.svelte`) into a third-party 
+application, future version updates pulled from the upstream Open WebUI 
+repository could overwrite or break our dropdown menus.
 
 To mitigate the risk of breaking existing Open WebUI features, we will keep 
 our custom UI components (the dropdowns) modular and separate from the core 
