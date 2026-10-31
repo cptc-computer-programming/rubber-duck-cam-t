@@ -1,22 +1,20 @@
 ---
 layout: default
-title: Engineering Design Document Template
+title: Rubber Duck Frontend Engineering Design Document
 ---
 
 [Documentation home]({{ '/' | relative_url }})
 
-# Engineering Design Document Template
+# Rubber Duck Frontend Engineering Design Document
 
-All sections in this document are optional. Use what you need.
-
-**Document Version: 1.0**
+**Document Version: 1.1**
 
 ## Executive Summary
 
 Field       Information
 Status      IN PROGRESS
 Created     Date  October 25, 2026
-Author      Frontend Team – Francis Sengele, Ivanna Otero, Zac
+Author      Frontend Team – Francis Sengele, Ivanna Otero, Zac Kimball
 EDD Size    1–2 weeks (estimate)
 Consulted   Backend Team (Cody, Zane, Anthony), Instructor Rachel
 
@@ -37,7 +35,7 @@ Consulted   Backend Team (Cody, Zane, Anthony), Instructor Rachel
   We can't build our HTTP requests or UI models until we know exactly what JSON payload 
   they are sending us and what they expect us to send back.
 
-### Bullet Points
+### Key Frontend Objectives
 - The frontend must create a user experience that encourages problem-solving through guidance, hints, 
   and coaching rather than answer delivery.
 - A scalable component architecture must be designed to support assignment views, 
@@ -75,10 +73,17 @@ This approach allows us to reuse the existing Open WebUI chat system without bui
 
 ## Frontend Technical Problem
 
-- Open WebUI has an existing chat interface, but M1 requires a way for students to select the supported SQL JOIN assignment.
-- We need to decide where assignment selection should appear in the chat interface.
-- We need to identify the existing frontend components responsible for starting a chat and submitting messages.
-- The frontend and backend teams need to agree on how assignment information will be sent and received.
+- Open WebUI has an existing chat interface, but M1 requires a way for students to select
+  the supported SQL JOIN assignment.
+  
+- Integrating a new assignment selection mechanism into the existing layout must be done
+  without disrupting the core chat UX or requiring a massive UI overhaul.
+  
+- The current Open WebUI architecture couples chat initiation and message submission tightly,
+  making it complex to securely inject assignment context before a chat session officially begins.
+  
+- Open WebUI's native API payloads do not natively support custom education metadata (like class or assignment IDs),
+  creating a data transmission bottleneck between the frontend and the AI backend.
 
 ## Proposed Solution
 
@@ -88,21 +93,26 @@ This approach allows us to reuse the existing Open WebUI chat system without bui
 - Investigate the existing chat submission API and reuse it if appropriate.
 - Work with the backend team to agree on the assignment data format.
 
-## Technical Decisions Still Needed
+## Technical Design
+
+### Technical Decisions Still Needed
 
 - Which Svelte component should we modify?
 - Should assignment information come from the backend or be defined in the frontend for M1?
 - Which API should carry the selected assignment?
 - How should the assignment be associated with the chat session?
 
-## Technical Design
+
 
 ### Overview
 
 Our Frontend team will modify the existing Open WebUI chat interface.
-We found the main chat component in Chat.svelte.
-We will add two dropdown menus so students can select a class and an assignment before asking a question.
+We found the main chat component in Chat.svelte. We will add two dropdown menus
+so students can select a class and an assignment before asking a question.
 The frontend will send the selected information to the backend using the existing chat API.
+
+**Proposed UI Sketch:**
+![Proposed UI Sketch in Figma with Class and Assignment Dropdowns](./images/RubberduckUIDesign.png)
 
 
 ### Technical Details
