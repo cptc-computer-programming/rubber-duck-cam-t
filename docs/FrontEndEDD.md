@@ -13,10 +13,10 @@ title: Rubber Duck Frontend Engineering Design Document
 
 Field       Information
 Status      IN PROGRESS
-Created     Date  October 25, 2026
+Created     Date  October 30, 2026
 Author      Frontend Team – Francis Sengele, Ivanna Otero, Zac Kimball
 EDD Size    1–2 weeks (estimate)
-Consulted   Backend Team (Cody, Zane, Anthony), Instructor Rachel
+Consulted   Backend Team (Cody, Zane, Anthony), Instructor Rachel and Joe
 
 
 
@@ -119,14 +119,25 @@ The frontend will send the selected information to the backend using the existin
 
 #### System Diagrams
 
-- The data will move through the system like this:
-- The student selects a class and assignment.
-- The student types a question.
-- The frontend sends the question and assignment information to the backend.
-- The backend adds the assignment context and coaching instructions.
-- Ollama generates a response.
-- The frontend displays the response to the student.
+Here is the sequence diagram showing how the frontend interacts with the 
+backend:
 
+```
+mermaid
+sequenceDiagram
+    actor Student
+    participant Frontend as Open WebUI (Chat.svelte)
+    participant Backend as API (/api/chat/completions)
+    participant LLM as Ollama
+
+    Student->>Frontend: Selects Class & Assignment
+    Student->>Frontend: Types question & sends
+    Frontend->>Backend: POST /api/chat/completions (with rubber_duck_context)
+    Backend->>LLM: Injects prompt constraints + Student Question
+    LLM-->>Backend: Generates coaching response
+    Backend-->>Frontend: Returns stream/response
+    Frontend-->>Student: Displays AI response
+```
 
 
 #### APIs
@@ -206,12 +217,25 @@ Describe the risk and its potential impact.
 
 #### Mitigation Strategy
 
-Describe how the risk will be reduced or addressed.
+To mitigate the risk of breaking existing Open WebUI features, we will keep 
+our custom UI components (the dropdowns) modular and separate from the core 
+chat logic as much as possible. All modifications to `Chat.svelte` will be 
+heavily documented. By adhering strictly to the agreed-upon 
+`rubber_duck_context` data contract, we minimize the risk of frontend/backend 
+integration failures.
 
 ## Timeline & Scope
 
-The big question to answer: will this take days, weeks, or months?
+**Scope for M1:**
+- Design and integrate Class and Assignment dropdown menus into the existing 
+  Open WebUI chat interface (`Chat.svelte`).
+- Capture the user's selection and append it to the chat submission API 
+  payload.
+- Ensure the UI remains responsive and accessible.
 
-- Key milestones and phases.
-- Dependencies and sequencing.
-- Resource assumptions (team size, roles).
+**Estimated Timeline:**
+- **Week 1:** UI implementation of the dropdowns and state management.
+- **Week 2:** API payload integration and syncing with the backend data 
+  contract.
+- **Week 3:** End-to-end testing, bug fixes, and final review before merging 
+  M1 to main.
