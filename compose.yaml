@@ -50,10 +50,6 @@ services:
       # Export HTTP metrics to the Collector on Docker's private network.
       ENABLE_OTEL: "true"
       ENABLE_OTEL_METRICS: "true"
-      ENABLE_OTEL_TRACES: "false"
-      ENABLE_OTEL_LOGS: "false"
-      OTEL_SERVICE_NAME: open-webui
-      OTEL_METRICS_OTLP_SPAN_EXPORTER: grpc
       OTEL_METRICS_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
       OTEL_METRICS_EXPORTER_OTLP_INSECURE: "true"
     volumes:
