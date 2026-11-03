@@ -66,13 +66,12 @@ services:
   otel-collector:
     image: otel/opentelemetry-collector-contrib:0.164.0
     restart: unless-stopped
-    command: ["--config=/etc/otelcol/config.yaml"]
     # No host ports: OTLP and the metrics endpoint stay inside Docker.
     volumes:
       # Collector configuration.
       - type: bind
         source: ./monitoring/otel-collector.yaml
-        target: /etc/otelcol/config.yaml
+        target: /etc/otelcol-contrib/config.yaml
         read_only: true
         bind:
           create_host_path: false
@@ -80,13 +79,6 @@ services:
   prometheus:
     image: prom/prometheus:v3.15.1
     restart: unless-stopped
-    command:
-      - --config.file=/etc/prometheus/prometheus.yml
-      - --storage.tsdb.path=/prometheus
-      # Whichever retention threshold is reached first removes old blocks.
-      - --storage.tsdb.retention.time=15d
-      # Allow extra disk space for active data and compaction; not a quota.
-      - --storage.tsdb.retention.size=2GB
     # No host port: queries and scrapes use Docker's private network.
     volumes:
       # Prometheus configuration
