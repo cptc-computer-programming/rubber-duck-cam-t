@@ -1,0 +1,32 @@
+# Open WebUI sends metrics here over OTLP/gRPC inside the Compose network.
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: 0.0.0.0:4317
+
+processors:
+  # Apply backpressure before batching if Collector memory grows too large.
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 256
+    spike_limit_mib: 64
+  batch:
+    timeout: 5s
+    send_batch_size: 1024
+    send_batch_max_size: 2048
+
+exporters:
+  prometheus:
+    # Prometheus scrapes this endpoint; Compose does not publish its port.
+    endpoint: 0.0.0.0:8889
+    translation_strategy: UnderscoreEscapingWithSuffixes
+    # Stop exposing stale samples when Open WebUI stops exporting.
+    metric_expiration: 1m
+
+service:
+  pipelines:
+    metrics:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [prometheus]

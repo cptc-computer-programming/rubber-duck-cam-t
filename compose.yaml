@@ -47,6 +47,15 @@ services:
       WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY:?Set WEBUI_SECRET_KEY in .env}
       # New users after the first administrator need approval.
       DEFAULT_USER_ROLE: pending
+      # Export HTTP metrics to the Collector on Docker's private network.
+      ENABLE_OTEL: "true"
+      ENABLE_OTEL_METRICS: "true"
+      ENABLE_OTEL_TRACES: "false"
+      ENABLE_OTEL_LOGS: "false"
+      OTEL_SERVICE_NAME: open-webui
+      OTEL_METRICS_OTLP_SPAN_EXPORTER: grpc
+      OTEL_METRICS_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      OTEL_METRICS_EXPORTER_OTLP_INSECURE: "true"
     volumes:
       # Persist accounts, chats, and UI settings on the host.
       - ./data/open-webui:/app/backend/data
@@ -57,3 +66,42 @@ services:
       timeout: 10s
       retries: 10
       start_period: 120s
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.164.0
+    restart: unless-stopped
+    command: ["--config=/etc/otelcol/config.yaml"]
+    # No host ports: OTLP and the metrics endpoint stay inside Docker.
+    volumes:
+      # Collector configuration.
+      - type: bind
+        source: ./monitoring/otel-collector.yaml
+        target: /etc/otelcol/config.yaml
+        read_only: true
+        bind:
+          create_host_path: false
+
+  prometheus:
+    image: prom/prometheus:v3.15.1
+    restart: unless-stopped
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      # Whichever retention threshold is reached first removes old blocks.
+      - --storage.tsdb.retention.time=15d
+      # Allow extra disk space for active data and compaction; not a quota.
+      - --storage.tsdb.retention.size=2GB
+    # No host port: queries and scrapes use Docker's private network.
+    volumes:
+      # Prometheus configuration
+      - type: bind
+        source: ./monitoring/prometheus.yaml
+        target: /etc/prometheus/prometheus.yml
+        read_only: true
+        bind:
+          create_host_path: false
+      - prometheus-data:/prometheus
+
+volumes:
+  # Preserve recorded metrics when containers are recreated.
+  prometheus-data:
