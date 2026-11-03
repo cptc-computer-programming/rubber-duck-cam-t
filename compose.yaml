@@ -50,7 +50,9 @@ services:
       # Export HTTP metrics to the Collector on Docker's private network.
       ENABLE_OTEL: "true"
       ENABLE_OTEL_METRICS: "true"
+      # Open WebUI defaults to gRPC; logs and traces remain disabled.
       OTEL_METRICS_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      # No TLS on this internal connection; revisit if the Collector moves off-host.
       OTEL_METRICS_EXPORTER_OTLP_INSECURE: "true"
     volumes:
       # Persist accounts, chats, and UI settings on the host.
@@ -68,12 +70,13 @@ services:
     restart: unless-stopped
     # No host ports: OTLP and the metrics endpoint stay inside Docker.
     volumes:
-      # Collector configuration.
+      # Use the image's default config path so no command override is needed.
       - type: bind
         source: ./monitoring/otel-collector.yaml
         target: /etc/otelcol-contrib/config.yaml
         read_only: true
         bind:
+          # Fail on a missing config instead of creating a directory.
           create_host_path: false
 
   prometheus:
@@ -81,13 +84,15 @@ services:
     restart: unless-stopped
     # No host port: queries and scrapes use Docker's private network.
     volumes:
-      # Prometheus configuration
+      # The image loads this path by default; retention is configured in this file.
       - type: bind
         source: ./monitoring/prometheus.yaml
         target: /etc/prometheus/prometheus.yml
         read_only: true
         bind:
+          # Fail on a missing config instead of creating a directory.
           create_host_path: false
+      # Matches the image's default data path; survives container recreation.
       - prometheus-data:/prometheus
 
 volumes:
