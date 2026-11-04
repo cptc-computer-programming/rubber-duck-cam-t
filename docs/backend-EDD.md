@@ -1,6 +1,6 @@
 ---
 layout: default
-title: EDD: M1 Backend Engineering Design Document
+title: M1 Backend Engineering Design Document
 ---
 
 [Documentation home]({{ '/' | relative_url }})
@@ -200,3 +200,9 @@ Make sure the assignment data is acquired well ahead of time and if it is missin
 ## Timeline & Scope
 
 As of right now, the team is under the agreement that this will take us weeks at a worst case scenario to implement the EDD
+Phases:
+- Phase 1: Receiving information from the front
+- Phase 2: Use received information to pull from the API
+- Phase 3: Pushing required information to the LLM
+
+*To accomplish this timeline the team will consist of 3 members: Anthony Brunner, Cody Pekarek, Zane Marcoe*
