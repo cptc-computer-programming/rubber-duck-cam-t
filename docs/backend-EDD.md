@@ -7,7 +7,6 @@ title: EDD: M1 Backend Engineering Design Document
 
 # EDD: M1 Backend Engineering Design Document
 
-All sections in this document are optional. Use what you need.
 
 **Document Version: 1.0**
 
@@ -18,7 +17,7 @@ All sections in this document are optional. Use what you need.
 | **Status** | DRAFT |
 | **Created Date** | October 20, 2026|
 | **Author** | Anthony Brunner, Cody Pekarek, Zane Marcoe|
-| **EDD Size** | Estimated scope (days, weeks, months). |
+| **EDD Size** | weeks |
 | **Consulted** | Frontend Team (Francis, Ivanna, Zac), Rachel King, Joe Ortiz |
 | **Supporting Documentation** | [M1](m1.md), [Current architecture](current-architecture.md)|
 
@@ -26,7 +25,6 @@ All sections in this document are optional. Use what you need.
 
 ### Problem
 
-Clearly define the problem being solved:
 
 - The Model does not know to not give the explicit answer to the student and       rather tutor the student through the problem
 - The Model has no context to the current course work the students are working with
@@ -36,7 +34,6 @@ Clearly define the problem being solved:
     
 ### Proposed Solution
 
-High-level description of the solution:
 
 - Giving users access to course content, such as assignments, to get their desired help with context
 - Bar the model from giving the student the "answers" to their problems (force them to work through it)
@@ -78,13 +75,6 @@ compiled payload to the Ollama core server.
 
 ### Technical Details
 
-#### System Diagrams
-
-- Architecture diagrams (high-level and/or detailed).
-- Sequence diagrams for critical flows.
-- Data flow diagrams if applicable.
-- Clearly label services, dependencies, and boundaries.
-
 ##### Interceptor Prompt Pipeline Sequence
 1. Client frontend sends a `POST` request containing `class_id`, `assignment_id`, and `student_message`.
 2. API queries persistent storage for the assignment parameters (e.g., restricted methods, target concepts, allowed libraries).
@@ -118,32 +108,6 @@ compiled payload to the Ollama core server.
   "response": "To repeat an action cleanly, programmers use a structural pattern called a loop. Think of it like a repeating track playlist that counts each song play. If you wanted a counter to start at 1 and stop after 10 plays, what condition would tell the track playlist to finally stop?"
 }
 ```
-
-#### Database
-
-- Schema changes (tables, fields, indexes).
-- Migrations and rollout plan.
-
-##### Schema Updates
-To support dynamic contextual rendering, two relational structures will be implemented inside the system persistence layer:
-
-* **`assignments` Table:**
-  * `id` (VARCHAR, PK): Unique identification key (e.g., `lab-03-loops`).
-  * `class_id` (VARCHAR, FK): Maps back to the active tracking class registry.
-  * `title` (VARCHAR): Display name of the student coursework.
-  * `objectives` (JSON/TEXT): Array of mandatory key terms or target skill competencies.
-  * `rubric_constraints` (TEXT): Explicit instructions regarding prohibited tools or design patterns.
-  * `max_scope_level` (INT): Numeric curriculum tier flag used to flag out-of-scope concepts.
-
-* **`student_skill_analytics` Table:**
-  * `id` (BIGINT, PK): Unique tracking entry indicator.
-  * `student_id` (VARCHAR): Tracking tag bound to the active user account.
-  * `class_id` (VARCHAR, FK): Maps tracking explicitly back to specific courses.
-  * `concept_deficit` (VARCHAR): Tagged skill gap keyword (e.g., `nested-loops`).
-  * `occurrence_count` (INT): Running tally of times this conceptual deficit was identified.
-  * `last_observed` (TIMESTAMP): Time signature tracking for real-time instructor dashboards.
-
-
 
 #### Deployment
 
@@ -235,8 +199,4 @@ Make sure the assignment data is acquired well ahead of time and if it is missin
 
 ## Timeline & Scope
 
-The big question to answer: will this take days, weeks, or months?
-
-- Key milestones and phases.
-- Dependencies and sequencing.
-- Resource assumptions (team size, roles).
+As of right now, the team is under the agreement that this will take us weeks at a worst case scenario to implement the EDD
