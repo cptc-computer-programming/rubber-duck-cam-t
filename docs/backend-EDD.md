@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Engineering Design Document Template
+title: EDD: M1 Backend Engineering Design Document
 ---
 
 [Documentation home]({{ '/' | relative_url }})
