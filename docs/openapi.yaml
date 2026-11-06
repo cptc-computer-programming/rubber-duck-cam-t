@@ -1,0 +1,173 @@
+# ensures that this file follows the global format for open-api communication contract
+openapi: 3.0.3
+
+# a box holding basic details about what this entire project does
+info:
+
+  # the official name of this complete software service
+  title: AI Tutoring Service API
+
+  # a plain text summary explaining the main goal of the system
+  description: A universal API contract where the frontend passes class id and assignment id's, allowing the backend to dynamically inject the target tutor persona, skillsets, and system prompts.
+
+  # the current version control number of this tracking document(ensures that back/front end are always working with the same communication contract)
+  version: 1.0.0
+
+# a list of all the digital roads or URL paths your app can travel down
+paths:
+
+  # the exact web address endpoint where data will be sent
+  /api/chat/completions:
+
+    # the action being performed (post means 'sending new data over the network')
+    post:
+
+      # a quick human-readable summary of what happens at this web address
+      summary: Send a chat prompt with class and assignment id's
+
+      # roughly speaking, the operation id, is the name of the method that will have the defined parameters such as defined below, like class id,assignment id, and temperature.
+      operationId: tutorChatCompletion
+
+      # defines the parameters required to be passed.
+      requestBody:
+
+        # marks whether this data package is mandatory (true means it cannot be skipped)
+        required: true
+
+        # the internal ingredients or data formats allowed inside the package
+        content:
+
+          # specifies that the format of the data being sent must be standard JSON text
+          application/json:
+
+            # the blueprint template that this data block must perfectly match
+            schema:
+
+              # a pointer link telling the computer to go look at the blueprint down below
+              $ref: '#/components/schemas/TutorChatRequest'
+
+      # what the backend server promises to send back after processing the request
+      responses:
+
+        # the standard network success code (200 means 'Everything worked perfectly')
+        '200':
+
+          # a friendly note explaining what this specific response means
+          description: Successful context-aware response from the dynamically selected tutor persona
+
+          # the structure of the data package being returned back to the user
+          content:
+
+            application/json:
+
+              schema:
+
+                # tells the computer this data is a dictionary container with key-value pairs
+                type: object
+
+                # a list of the specific individual data items contained inside the box
+                properties:
+
+                  # the label name for the first specific property piece
+                  id:
+
+                    # tells the computer this field must be text words or characters
+                    type: string
+
+                  # the label name for the second specific property piece
+                  content:
+                    type: string
+
+# a storage closet where we define reusable blueprints to keep the file clean
+components:
+
+  # a subsection specifically for holding layout schemas and blueprints
+  schemas:
+
+    # the official name given to this specific reusable blueprint layout
+    TutorChatRequest:
+      title: TutorChatRequest
+      type: object
+
+      # a checklist of required fields that are absolutely mandatory to include
+      required:
+
+        # an item on the mandatory checklist
+        - model
+        - context
+        - messages
+        - temperature
+
+      properties:
+
+        # A string identifying the base AI model running on the server. The backend will use this to activate the correct raw AI brain.
+        model:
+          type: string
+
+          # an educational note detailing what this field is used for
+          description: The core LLM base model slug
+
+          # an real-world visualization example of what a real value looks like
+          example: llama3.2-classID-assignmentID
+
+        temperature:
+
+          # tells the computer this field must be a number (can include decimals)
+          type: number
+          description: This value directly relates to how the AI generates text. The lower the value, the higher probability of word choice is selected (more predictable). The higher the value, the more likely the AI will choose a less probable word (more creative).
+          example: 0.3
+
+        # defines the class and assignment id's.
+        context:
+
+          type: object
+
+          description: A metadata block used by the backend database to look up the correct tutor persona and active lesson skillsets.
+
+          properties:
+
+            class_id:
+              type: string
+              description: Unique system identifier for any course across the platform.
+              example: "CS-301-DATABASES"
+
+            assignment_id:
+              type: string
+              description: Unique identifier for the specific assignment task. Used by backend to fetch linked skills and persona prompts.
+              example: "HW-04-JOIN-LOGIC"
+
+        # LLMs do not have a built in memory of past interactions. So this is an array of the chat messages between the user and the chatbot.
+        messages:
+
+          # tells the computer this field is a list or chain of multiple items
+          type: array
+          description: The ongoing conversation stream between the student and the dynamically selected AI persona.
+
+          # describes what every individual single row inside the list must look like
+          items:
+            type: object
+
+            required:
+              - role
+              - content
+
+            properties:
+
+              role:
+                type: string
+
+                # a strict menu of choices (the data *must* be exactly one of these words)
+                enum:
+
+                  # a specific allowed choice from the menu list
+                  - system
+                  - user
+                  - assistant
+
+                description: The author of this specific message block.
+                example: user
+
+              content:
+                type: string
+                description: The literal text query, question, or code sample submitted by the student.
+                example: How do I filter out records that don't match between these two tables?
