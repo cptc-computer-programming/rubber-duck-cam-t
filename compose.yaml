@@ -23,7 +23,12 @@ services:
 
   open-webui:
     # Browser interface, accounts, and conversations.
-    image: ghcr.io/open-webui/open-webui:v0.11.3
+    # Build from the fork cloned beside this deployment repository.
+    build:
+      context: ../rubber-duck-webui
+      dockerfile: Dockerfile
+    image: rubber-duck-webui:local
+    pull_policy: build
     restart: unless-stopped
     depends_on:
       # Wait for Ollama to respond before starting the interface.
@@ -42,6 +47,13 @@ services:
       WEBUI_SECRET_KEY: ${WEBUI_SECRET_KEY:?Set WEBUI_SECRET_KEY in .env}
       # New users after the first administrator need approval.
       DEFAULT_USER_ROLE: pending
+      # Export HTTP metrics to the Collector on Docker's private network.
+      ENABLE_OTEL: "true"
+      ENABLE_OTEL_METRICS: "true"
+      # Open WebUI defaults to gRPC; logs and traces remain disabled.
+      OTEL_METRICS_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      # No TLS on this internal connection; revisit if the Collector moves off-host.
+      OTEL_METRICS_EXPORTER_OTLP_INSECURE: "true"
     volumes:
       # Persist accounts, chats, and UI settings on the host.
       - ./data/open-webui:/app/backend/data
@@ -52,3 +64,37 @@ services:
       timeout: 10s
       retries: 10
       start_period: 120s
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.164.0
+    restart: unless-stopped
+    # No host ports: OTLP and the metrics endpoint stay inside Docker.
+    volumes:
+      # Use the image's default config path so no command override is needed.
+      - type: bind
+        source: ./monitoring/otel-collector.yaml
+        target: /etc/otelcol-contrib/config.yaml
+        read_only: true
+        bind:
+          # Fail on a missing config instead of creating a directory.
+          create_host_path: false
+
+  prometheus:
+    image: prom/prometheus:v3.15.1
+    restart: unless-stopped
+    # No host port: queries and scrapes use Docker's private network.
+    volumes:
+      # The image loads this path by default; retention is configured in this file.
+      - type: bind
+        source: ./monitoring/prometheus.yaml
+        target: /etc/prometheus/prometheus.yml
+        read_only: true
+        bind:
+          # Fail on a missing config instead of creating a directory.
+          create_host_path: false
+      # Matches the image's default data path; survives container recreation.
+      - prometheus-data:/prometheus
+
+volumes:
+  # Preserve recorded metrics when containers are recreated.
+  prometheus-data:

@@ -1,0 +1,17 @@
+global:
+  # Collect fresh samples every 15 seconds for dashboards.
+  scrape_interval: 15s
+
+storage:
+  tsdb:
+    retention:
+      # Remove old blocks when either threshold is reached.
+      time: 15d
+      # Allow extra disk space for active data and compaction; not a quota.
+      size: 2GB
+
+scrape_configs:
+  # Stable job label for queries; metrics come from the Collector, not WebUI directly.
+  - job_name: open-webui
+    static_configs:
+      - targets: [otel-collector:8889]
