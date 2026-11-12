@@ -1,24 +1,22 @@
 ---
 layout: default
-title: Engineering Design Document Template
+title: Rubber Duck Frontend Engineering Design Document
 ---
 
 [Documentation home]({{ '/' | relative_url }})
 
-# Engineering Design Document Template
+# Rubber Duck Frontend Engineering Design Document
 
-All sections in this document are optional. Use what you need.
-
-**Document Version: 1.0**
+**Document Version: 1.1**
 
 ## Executive Summary
 
 Field       Information
 Status      IN PROGRESS
-Created     Date  October 25, 2026
-Author      Frontend Team – Francis Sengele, Ivanna Otero, Zac
+Created     Date  October 30, 2026
+Author      Frontend Team – Francis Sengele, Ivanna Otero, Zac Kimball
 EDD Size    1–2 weeks (estimate)
-Consulted   Backend Team (Cody, Zane, Anthony), Instructor Rachel
+Consulted   Backend Team (Cody, Zane, Anthony), Instructor Rachel and Joe
 
 
 
@@ -37,7 +35,7 @@ Consulted   Backend Team (Cody, Zane, Anthony), Instructor Rachel
   We can't build our HTTP requests or UI models until we know exactly what JSON payload 
   they are sending us and what they expect us to send back.
 
-### Bullet Points
+### Key Frontend Objectives
 - The frontend must create a user experience that encourages problem-solving through guidance, hints, 
   and coaching rather than answer delivery.
 - A scalable component architecture must be designed to support assignment views, 
@@ -49,7 +47,7 @@ Consulted   Backend Team (Cody, Zane, Anthony), Instructor Rachel
   and user engagement, requiring specialized frontend engineering to transform backend AI 
   functionality into an intuitive learning platform that students will actually use effectively.
 
-  ### Problem Statement — Frontend
+### Problem Statement — Frontend
 
 Open WebUI already has a chat system. Students can type questions and receive AI responses.
 However, the chat does not currently have a way for students to select the homework assignment they need help with.
@@ -75,10 +73,17 @@ This approach allows us to reuse the existing Open WebUI chat system without bui
 
 ## Frontend Technical Problem
 
-- Open WebUI has an existing chat interface, but M1 requires a way for students to select the supported SQL JOIN assignment.
-- We need to decide where assignment selection should appear in the chat interface.
-- We need to identify the existing frontend components responsible for starting a chat and submitting messages.
-- The frontend and backend teams need to agree on how assignment information will be sent and received.
+- Open WebUI has an existing chat interface, but M1 requires a way for students to select
+  the supported SQL JOIN assignment.
+  
+- Integrating a new assignment selection mechanism into the existing layout must be done
+  without disrupting the core chat UX or requiring a massive UI overhaul.
+  
+- The current Open WebUI architecture couples chat initiation and message submission tightly,
+  making it complex to securely inject assignment context before a chat session officially begins.
+  
+- Open WebUI's native API payloads do not natively support custom education metadata (like class or assignment IDs),
+  creating a data transmission bottleneck between the frontend and the AI backend.
 
 ## Proposed Solution
 
@@ -88,55 +93,68 @@ This approach allows us to reuse the existing Open WebUI chat system without bui
 - Investigate the existing chat submission API and reuse it if appropriate.
 - Work with the backend team to agree on the assignment data format.
 
-## Technical Decisions Still Needed
+## Technical Design
+
+### Technical Decisions Still Needed
 
 - Which Svelte component should we modify?
 - Should assignment information come from the backend or be defined in the frontend for M1?
 - Which API should carry the selected assignment?
 - How should the assignment be associated with the chat session?
 
-## Technical Design
+
 
 ### Overview
 
 Our Frontend team will modify the existing Open WebUI chat interface.
-We found the main chat component in Chat.svelte.
-We will add two dropdown menus so students can select a class and an assignment before asking a question.
+We found the main chat component in Chat.svelte. We will add two dropdown menus
+so students can select a class and an assignment before asking a question.
 The frontend will send the selected information to the backend using the existing chat API.
+
+**Proposed UI Sketch:**
+![Proposed UI Sketch in Figma with Class and Assignment Dropdowns](./images/RubberduckUIDesign.png)
 
 
 ### Technical Details
 
 #### System Diagrams
 
-- The data will move through the system like this:
-- The student selects a class and assignment.
-- The student types a question.
-- The frontend sends the question and assignment information to the backend.
-- The backend adds the assignment context and coaching instructions.
-- Ollama generates a response.
-- The frontend displays the response to the student.
+Here is the sequence diagram showing how the frontend interacts with the 
+backend:
 
+```mermaid
+sequenceDiagram
+    actor Student
+    participant Frontend as Open WebUI (Chat.svelte)
+    participant Backend as API (/api/chat/completions)
+    participant LLM as Ollama
+
+    Student->>Frontend: Selects Class & Assignment
+    Student->>Frontend: Types question & sends
+    Frontend->>Backend: POST /api/chat/completions (with rubber_duck_context)
+    Backend->>LLM: Injects prompt constraints + Student Question
+    LLM-->>Backend: Generates coaching response
+    Backend-->>Frontend: Returns stream/response
+    Frontend-->>Student: Displays AI response
+```
 
 
 #### APIs
 
 We will use the existing endpoint:
-POST /api/chat/completions
-Our teams agreed to use this data structure:
+`POST /api/chat/completions`
+
+Our teams agreed to use this data structure. It will be sent as part of the 
+request payload:
+
+```json
 {
   "rubber_duck_context": {
     "class_id": "cpw-152",
     "assignment_id": "cp4-joins"
   }
 }
-The frontend will send this object with the existing chat request.
-In Chat.svelte, we found generateOpenAIChatCompletion, which sends the chat request.
-We also added two variables:
-let selectedClassId = '';
-let selectedAssignmentId = '';
-These variables will store the selected class and assignment.
-The backend team will read this information and use it to provide the correct assignment instructions.
+```
 
 
 #### Database
@@ -147,21 +165,28 @@ The backend team will read this information and use it to provide the correct as
 
 #### Deployment
 
-How will code changes be shipped? Include information on:
+Since we are modifying an existing open-source project (Open WebUI), our 
+deployment strategy will rely on Docker.
 
-- Automated steps.
-- Manual steps.
-- CI/CD pipelines.
-- Containerization technology.
+- **Automated steps:** GitHub Actions will run standard build and lint tests 
+  on the `rubber-duck-cam-t` repository.
+- **Containerization technology:** We will use Docker to build the modified 
+  Open WebUI image.
+- **Manual steps:** For M1, deployment to the staging environment will be 
+  handled manually by pulling the latest Docker image and spinning up the 
+  container.
+
 
 ## Out of Scope
 
-Explicitly list what is not included:
+Explicitly not included in Milestone 1:
+- A custom-built chat UI from scratch (we are modifying Open WebUI).
+- Backend prompt engineering or AI model selection.
+- Saving user progress or chat history outside of Open WebUI's native SQLite 
+  database.
+- Authentication or single sign-on (SSO) integration.
 
-- Features or capabilities intentionally excluded.
-- Future work that will be handled separately.
-- Avoid ambiguity to prevent scope creep.
-
+  
 ## Observability
 
 ### Proactive
@@ -179,29 +204,32 @@ Metrics to track system health (latency, throughput, error rates):
 
 ## Risks
 
-Identify and assess risks:
-
-- Technical risks (scalability, reliability).
-- Product risks (user adoption, UX issues).
-- Operational risks (deployment complexity).
-- Dependencies on other teams or systems.
-
-For each risk, include the following headers:
-
-### [Risk Name]
+### Open WebUI Upgrades Break Custom UI
 
 #### Description
+Because we are injecting custom code (`Chat.svelte`) into a third-party 
+application, future version updates pulled from the upstream Open WebUI 
+repository could overwrite or break our dropdown menus.
 
-Describe the risk and its potential impact.
-
-#### Mitigation Strategy
-
-Describe how the risk will be reduced or addressed.
+To mitigate the risk of breaking existing Open WebUI features, we will keep 
+our custom UI components (the dropdowns) modular and separate from the core 
+chat logic as much as possible. All modifications to `Chat.svelte` will be 
+heavily documented. By adhering strictly to the agreed-upon 
+`rubber_duck_context` data contract, we minimize the risk of frontend/backend 
+integration failures.
 
 ## Timeline & Scope
 
-The big question to answer: will this take days, weeks, or months?
+**Scope for M1:**
+- Design and integrate Class and Assignment dropdown menus into the existing 
+  Open WebUI chat interface (`Chat.svelte`).
+- Capture the user's selection and append it to the chat submission API 
+  payload.
+- Ensure the UI remains responsive and accessible.
 
-- Key milestones and phases.
-- Dependencies and sequencing.
-- Resource assumptions (team size, roles).
+**Estimated Timeline:**
+- **Week 1:** UI implementation of the dropdowns and state management.
+- **Week 2:** API payload integration and syncing with the backend data 
+  contract.
+- **Week 3:** End-to-end testing, bug fixes, and final review before merging 
+  M1 to main.
