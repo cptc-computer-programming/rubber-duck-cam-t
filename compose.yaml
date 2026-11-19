@@ -50,10 +50,13 @@ services:
       # Export HTTP metrics to the Collector on Docker's private network.
       ENABLE_OTEL: "true"
       ENABLE_OTEL_METRICS: "true"
-      # Open WebUI defaults to gRPC; logs and traces remain disabled.
+      # Open WebUI defaults to gRPC; traces remain disabled.
       OTEL_METRICS_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
       # No TLS on this internal connection; revisit if the Collector moves off-host.
       OTEL_METRICS_EXPORTER_OTLP_INSECURE: "true"
+      ENABLE_OTEL_LOGS: "true"
+      OTEL_LOGS_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      OTEL_LOGS_EXPORTER_OTLP_INSECURE: "true"
     volumes:
       # Persist accounts, chats, and UI settings on the host.
       - ./data/open-webui:/app/backend/data
@@ -95,6 +98,20 @@ services:
       # Matches the image's default data path; survives container recreation.
       - prometheus-data:/prometheus
 
+  loki:
+    image: grafana/loki:3.7.10
+    restart: unless-stopped
+    # No host port; the image reads this config path by default.
+    volumes:
+      - type: bind
+        source: ./monitoring/loki.yaml
+        target: /etc/loki/local-config.yaml
+        read_only: true
+        bind:
+          create_host_path: false
+      - loki-data:/loki
+
 volumes:
   # Preserve recorded metrics when containers are recreated.
   prometheus-data:
+  loki-data:
