@@ -53,3 +53,5 @@ port is published; Ollama stays inside the Docker network.
 
 See [DEVELOPMENT.md](docs/DEVELOPMENT.md) for everyday commands, resets, and backup
 and restoration. Local settings and data are excluded from Git.
+
+See [Application logs](monitoring/README.md) for log collection, coverage, and storage.

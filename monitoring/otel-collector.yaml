@@ -1,4 +1,4 @@
-# Open WebUI sends metrics here over OTLP/gRPC inside the Compose network.
+# Open WebUI sends metrics and logs over OTLP/gRPC inside the Compose network.
 receivers:
   otlp:
     protocols:
@@ -13,8 +13,28 @@ processors:
     spike_limit_mib: 64
   # Group exports using the Collector's default batch settings.
   batch: {}
+  # Keep only Open WebUI warnings and errors; HTTP metrics still cover all requests.
+  filter/logs:
+    error_mode: propagate
+    logs:
+      log_record:
+        - 'severity_number < SEVERITY_NUMBER_WARN'
+        - 'not IsMatch(instrumentation_scope.name, "^open_webui[.]")'
+  # Free text can contain credentials or student work. Keep only diagnostic metadata.
+  transform/logs:
+    error_mode: propagate
+    log_statements:
+      - context: log
+        statements:
+          - set(body, "Application warning/error; message omitted")
+          - keep_keys(attributes, ["code.file.path", "code.function.name", "code.line.number", "code.filepath", "code.function", "code.lineno", "exception.type"])
+          - keep_keys(resource.attributes, [])
+          - set(resource.attributes["service.name"], "open-webui")
+          - keep_keys(instrumentation_scope.attributes, [])
 
 exporters:
+  otlphttp/loki:
+    endpoint: http://loki:3100/otlp
   prometheus:
     # Prometheus scrapes this endpoint; Compose does not publish its port.
     endpoint: 0.0.0.0:8889
@@ -23,6 +43,11 @@ exporters:
 
 service:
   pipelines:
+    logs:
+      receivers: [otlp]
+      # Sanitize before batching or export; failures must not forward raw logs.
+      processors: [memory_limiter, filter/logs, transform/logs, batch]
+      exporters: [otlphttp/loki]
     metrics:
       receivers: [otlp]
       # Limit memory before buffering data into batches.
