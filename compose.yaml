@@ -93,7 +93,7 @@ services:
         target: /etc/prometheus/prometheus.yml
         read_only: true
         bind:
-          # Fail on a missing config instead of creating a directory.
+1          # Fail on a missing config instead of creating a directory.
           create_host_path: false
       # Matches the image's default data path; survives container recreation.
       - prometheus-data:/prometheus
