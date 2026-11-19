@@ -111,7 +111,27 @@ services:
           create_host_path: false
       - loki-data:/loki
 
+  grafana:
+    image: grafana/grafana:13.3.1
+    restart: unless-stopped
+    ports:
+      # Use an SSH tunnel for remote access; Open WebUI already uses port 3000.
+      - "127.0.0.1:3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?Set GRAFANA_ADMIN_PASSWORD in .env}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      # Provision Loki automatically so Explore is ready after sign-in.
+      - type: bind
+        source: ./monitoring/grafana/datasources.yaml
+        target: /etc/grafana/provisioning/datasources/loki.yaml
+        read_only: true
+        bind:
+          create_host_path: false
+      - grafana-data:/var/lib/grafana
+
 volumes:
   # Preserve recorded metrics when containers are recreated.
   prometheus-data:
   loki-data:
+  grafana-data:
