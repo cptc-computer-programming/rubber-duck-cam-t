@@ -1,0 +1,11 @@
+apiVersion: 1
+
+providers:
+  - name: operations
+    type: file
+    # Poll bind mounts so edits also appear reliably on Docker Desktop.
+    updateIntervalSeconds: 30
+    # Dashboard changes belong in Git, not Grafana's database.
+    allowUiUpdates: false
+    options:
+      path: /etc/grafana/dashboards

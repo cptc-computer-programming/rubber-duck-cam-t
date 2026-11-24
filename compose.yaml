@@ -50,10 +50,13 @@ services:
       # Export HTTP metrics to the Collector on Docker's private network.
       ENABLE_OTEL: "true"
       ENABLE_OTEL_METRICS: "true"
-      # Open WebUI defaults to gRPC; logs and traces remain disabled.
+      # Open WebUI defaults to gRPC; traces remain disabled.
       OTEL_METRICS_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
       # No TLS on this internal connection; revisit if the Collector moves off-host.
       OTEL_METRICS_EXPORTER_OTLP_INSECURE: "true"
+      ENABLE_OTEL_LOGS: "true"
+      OTEL_LOGS_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
+      OTEL_LOGS_EXPORTER_OTLP_INSECURE: "true"
     volumes:
       # Persist accounts, chats, and UI settings on the host.
       - ./data/open-webui:/app/backend/data
@@ -95,6 +98,63 @@ services:
       # Matches the image's default data path; survives container recreation.
       - prometheus-data:/prometheus
 
+  blackbox-exporter:
+    image: prom/blackbox-exporter:v0.29.1
+    restart: unless-stopped
+    # Probe application health inside Docker; no host port is needed.
+    volumes:
+      - type: bind
+        source: ./monitoring/blackbox.yaml
+        target: /etc/blackbox_exporter/config.yml
+        read_only: true
+        bind:
+          create_host_path: false
+
+  loki:
+    image: grafana/loki:3.7.10
+    restart: unless-stopped
+    # No host port; the image reads this config path by default.
+    volumes:
+      - type: bind
+        source: ./monitoring/loki.yaml
+        target: /etc/loki/local-config.yaml
+        read_only: true
+        bind:
+          create_host_path: false
+      - loki-data:/loki
+
+  grafana:
+    image: grafana/grafana:13.3.1
+    restart: unless-stopped
+    ports:
+      # Use an SSH tunnel for remote access; Open WebUI already uses port 3000.
+      - "127.0.0.1:3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?Set GRAFANA_ADMIN_PASSWORD in .env}
+    volumes:
+      # Provision data sources and the operations dashboard from Git.
+      - type: bind
+        source: ./monitoring/grafana/datasources.yaml
+        target: /etc/grafana/provisioning/datasources/loki.yaml
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./monitoring/grafana/dashboards.yaml
+        target: /etc/grafana/provisioning/dashboards/operations.yaml
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./monitoring/grafana/dashboards
+        target: /etc/grafana/dashboards
+        read_only: true
+        bind:
+          create_host_path: false
+      - grafana-data:/var/lib/grafana
+
 volumes:
   # Preserve recorded metrics when containers are recreated.
   prometheus-data:
+  loki-data:
+  grafana-data:
