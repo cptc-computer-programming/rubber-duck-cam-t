@@ -20,17 +20,6 @@ processors:
       log_record:
         - 'severity_number < SEVERITY_NUMBER_WARN'
         - 'not IsMatch(instrumentation_scope.name, "^open_webui[.]")'
-  # Free text can contain credentials or student work. Keep only diagnostic metadata.
-  transform/logs:
-    error_mode: propagate
-    log_statements:
-      - context: log
-        statements:
-          - set(body, "Application warning/error; message omitted")
-          - keep_keys(attributes, ["code.file.path", "code.function.name", "code.line.number", "code.filepath", "code.function", "code.lineno", "exception.type"])
-          - keep_keys(resource.attributes, [])
-          - set(resource.attributes["service.name"], "open-webui")
-          - keep_keys(instrumentation_scope.attributes, [])
 
 exporters:
   otlphttp/loki:
@@ -45,8 +34,8 @@ service:
   pipelines:
     logs:
       receivers: [otlp]
-      # Sanitize before batching or export; failures must not forward raw logs.
-      processors: [memory_limiter, filter/logs, transform/logs, batch]
+      # Preserve messages and exception details for debugging; no redaction is applied.
+      processors: [memory_limiter, filter/logs, batch]
       exporters: [otlphttp/loki]
     metrics:
       receivers: [otlp]

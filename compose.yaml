@@ -98,6 +98,18 @@ services:
       # Matches the image's default data path; survives container recreation.
       - prometheus-data:/prometheus
 
+  blackbox-exporter:
+    image: prom/blackbox-exporter:v0.29.1
+    restart: unless-stopped
+    # Probe application health inside Docker; no host port is needed.
+    volumes:
+      - type: bind
+        source: ./monitoring/blackbox.yaml
+        target: /etc/blackbox_exporter/config.yml
+        read_only: true
+        bind:
+          create_host_path: false
+
   loki:
     image: grafana/loki:3.7.10
     restart: unless-stopped
@@ -120,10 +132,22 @@ services:
     environment:
       GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?Set GRAFANA_ADMIN_PASSWORD in .env}
     volumes:
-      # Provision Loki automatically so Explore is ready after sign-in.
+      # Provision data sources and the operations dashboard from Git.
       - type: bind
         source: ./monitoring/grafana/datasources.yaml
         target: /etc/grafana/provisioning/datasources/loki.yaml
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./monitoring/grafana/dashboards.yaml
+        target: /etc/grafana/provisioning/dashboards/operations.yaml
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./monitoring/grafana/dashboards
+        target: /etc/grafana/dashboards
         read_only: true
         bind:
           create_host_path: false
