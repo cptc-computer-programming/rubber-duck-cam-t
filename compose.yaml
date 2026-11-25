@@ -127,8 +127,8 @@ services:
     image: grafana/grafana:13.3.1
     restart: unless-stopped
     ports:
-      # Use an SSH tunnel for remote access; Open WebUI already uses port 3000.
-      - "127.0.0.1:3001:3000"
+      # Share Open WebUI's host address; use port 3001 to avoid its port 3000.
+      - "${WEBUI_BIND_ADDRESS:-127.0.0.1}:3001:3000"
     environment:
       GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:?Set GRAFANA_ADMIN_PASSWORD in .env}
     volumes:
