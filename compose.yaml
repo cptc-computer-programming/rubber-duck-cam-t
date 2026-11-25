@@ -9,6 +9,9 @@ services:
     restart: unless-stopped
     # Requires the NVIDIA driver and Container Toolkit on the server.
     gpus: all
+    environment:
+      # The default context truncates long prompts (assignment text plus tool specs); raise it.
+      OLLAMA_CONTEXT_LENGTH: "16384"
     volumes:
       # Keep downloaded models when containers are recreated.
       - ./data/ollama:/root/.ollama
